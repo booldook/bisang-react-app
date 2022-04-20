@@ -1,0 +1,18 @@
+@import './mixins';
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+ul {
+  list-style: none;
+}
+
+.container {
+  max-width: $lg;
+  margin: auto;
+}

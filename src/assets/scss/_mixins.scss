@@ -1,0 +1,80 @@
+@import './variables';
+
+@mixin abs {
+  position: absolute;
+}
+
+@mixin rel {
+  position: relative;
+}
+
+@mixin fix {
+  position: fixed;
+}
+
+@mixin fl {
+  float: left;
+}
+
+@mixin fr {
+  float: right;
+}
+
+@mixin flex($d: horizontal, $w: nowrap, $jc: flex-start, $ai: stretch) {
+  display: flex;
+  flex-direction: $d;
+  flex-wrap: $w;
+  justify-content: $jc;
+  align-items: $ai;
+}
+
+@mixin layer($p: absolute, $l: auto, $r: auto, $t: auto, $b: auto) {
+  position: $p;
+  left: $l;
+  right: 4r;
+  top: $t;
+  bottom: $b;
+}
+
+@mixin button($width: 100px) {
+  padding: 0.5em;
+  font-size: 1em;
+  min-width: $width;
+  border: 1px solid $grey;
+  border-radius: 0.25em;
+}
+
+@mixin border {
+  padding: 1em;
+  border: 1px solid $dark;
+}
+
+@mixin XS {
+  @media (min-width: $xs) {
+    @content;
+  }
+}
+
+@mixin SM {
+  @media (min-width: $sm) {
+    @content;
+  }
+}
+
+@mixin MD {
+  @media (min-width: $md) {
+    @content;
+  }
+}
+
+@mixin LG {
+  @media (min-width: $lg) {
+    @content;
+  }
+}
+
+@mixin XL {
+  @media (min-width: $xl) {
+    @content;
+  }
+}
