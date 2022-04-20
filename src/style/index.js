@@ -1,7 +1,8 @@
-import styled, { css } from "@emotion/styled";
+import styled from "@emotion/styled";
+import { css } from "@emotion/react";
 
 export default styled;
-export { css } from "@emotion/styled";
+export * from "@emotion/react";
 
 export const color = {
   primary: '#234232',

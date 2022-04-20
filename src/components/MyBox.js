@@ -7,9 +7,9 @@ const StyledMyBox = styled.div`
   font-size: 1.5em;
 `
 
-const MyBox = ({ title }) => {
+const MyBox = ({ title, className }) => {
   return (
-    <StyledMyBox>{ title }</StyledMyBox>
+    <StyledMyBox className={className}>{ title }</StyledMyBox>
   )
 }
 
