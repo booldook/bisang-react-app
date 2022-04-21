@@ -1,8 +1,3 @@
-// Memorized
-// 1. Component => React.memo(Component);
-// 2. 함수 => useCallback();
-// 3. 객체 => useMemo();
-
 import React, { useState, useRef, useCallback, useMemo } from 'react';
 import styled, { color } from 'styled';
 
@@ -18,15 +13,15 @@ const CloseBt = styled.span`
   top: 0.25em;
 `
 
-const SearchCp = ({ onQuery }) => {
+const SearchCp = ({ getData }) => {
   const [query, setQuery] = useState('');
 
   const searchRef = useRef();
 
   const onSubmit = useCallback((e) => {
     e.preventDefault();
-    onQuery(query);
-  }, [onQuery, query]);
+    getData(query);
+  }, [getData, query]);
 
   const onChange = useCallback((e) => {
     setQuery(e.target.value);
