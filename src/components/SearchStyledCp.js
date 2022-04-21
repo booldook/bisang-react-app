@@ -16,8 +16,8 @@ const MyWrap = styled.div`
 `
 
 const StMyBox = styled(MyBox)`
-  border: 5px solid green !important;
-  font-size: 5em;
+  border: 10px solid green !important;
+  font-size: 3em !important;
   background-color: yellow;
 `
 
