@@ -41,8 +41,8 @@ const BookPage = () => {
   }, [query]);
   
   const getBookCount = useMemo(() => {
-    return totalCount ? '검색결과: ' + totalCount + '건' : '';
-  }, [totalCount]);
+    return totalCount && query ? '검색결과: ' + totalCount + '건' : '';
+  }, [totalCount, query]);
 
   const getData = useCallback(async (value) => {
     try {

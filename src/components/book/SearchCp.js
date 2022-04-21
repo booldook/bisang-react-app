@@ -29,9 +29,10 @@ const SearchCp = ({ getData }) => {
 
   const onRemove = useCallback((e) => {
     setQuery('');
+    getData('');
     searchRef.current.value = '';
     searchRef.current.focus();
-  }, []);
+  }, [getData]);
   return (
     <SearchForm onSubmit={onSubmit}>
       <input className="form-control" onChange={onChange} ref={searchRef} autoFocus />
