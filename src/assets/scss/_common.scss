@@ -20,6 +20,7 @@ ul {
 
 .global-header {
   a {
+    cursor: pointer;
     &:link, &:hover, &:active, &:visited {
       color: #f8f8f8;
       text-decoration: none;

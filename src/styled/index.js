@@ -5,6 +5,7 @@ export default styled;
 export * from "@emotion/react";
 
 export const color = {
+  danger: '#ff3300',
   primary: '#234232',
   secondary: '#881122',
   dark: '#333',
