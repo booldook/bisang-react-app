@@ -1,26 +1,38 @@
 import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HeaderCp from 'components/HeaderCp';
-import BodyCp from 'components/BodyCp';
 import FooterCp from 'components/FooterCp';
 import styled from 'styled';
+
+import HomePage from 'pages/home-page';
+import BookPage from 'pages/book-page';
+import BoardPage from 'pages/board-page';
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 `
-const Body = styled(BodyCp)`
+const Body = styled.div`
   flex-grow: 1;
   padding: 1em;
 `
 
 const App = () => {
   return (
-    <Wrapper>
-      <HeaderCp />
-      <Body className="container"/>
-      <FooterCp />
-    </Wrapper>
+    <BrowserRouter>
+      <Wrapper>
+        <HeaderCp />
+        <Body className="container">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/book" element={<BookPage />} />
+            <Route path="/board" element={<BoardPage />} />
+          </Routes>
+        </Body>
+        <FooterCp />
+      </Wrapper>
+    </BrowserRouter>
   );
 }
 

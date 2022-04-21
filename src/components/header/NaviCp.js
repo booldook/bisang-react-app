@@ -6,7 +6,7 @@ const NavWrap = styled.nav`
   display: flex;
   margin-left: auto;
 `
-const NavLink = styled.a`
+const NavLink = styled(Link)`
   padding: 1em;
 `
 
