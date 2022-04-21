@@ -17,3 +17,12 @@ ul {
   max-width: $lg;
   margin: auto;
 }
+
+.global-header {
+  a {
+    &:link, &:hover, &:active, &:visited {
+      color: #f8f8f8;
+      text-decoration: none;
+    }
+  }
+}

@@ -10,7 +10,7 @@ const Footer = styled.footer`
 
 const FooterCp = () => {
   return (
-    <Footer>FooterCp</Footer>
+    <Footer>Copyright &copy;booldook</Footer>
   )
 }
 

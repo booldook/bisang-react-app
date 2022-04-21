@@ -13,7 +13,7 @@ const Header = styled.header`
 
 const HeaderCp = () => {
   return (
-    <Header>
+    <Header className="global-header">
       <LogoCp />
       <NaviCp />
     </Header>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled, { color } from 'styled';
 
 const LogoTitle = styled.h1`
@@ -9,7 +10,9 @@ const LogoTitle = styled.h1`
 
 const LogoCp = () => {
   return (
-    <LogoTitle>Booldook</LogoTitle>
+    <LogoTitle>
+      <Link to="/">Booldook</Link>
+    </LogoTitle>
   )
 }
 
