@@ -1,4 +1,9 @@
-import React from 'react';
+// Memorized
+// 1. Component => React.memo(Component);
+// 2. 함수 => useCallback();
+// 3. 객체 => useMemo();
+
+import React, { useState, useRef, useCallback, useMemo } from 'react';
 import styled, { color } from 'styled';
 
 const SearchForm = styled.form`
@@ -13,19 +18,31 @@ const CloseBt = styled.span`
   top: 0.25em;
 `
 
-const SearchCp = () => {
-  const onSubmit = (e) => {
+const SearchCp = ({ onQuery }) => {
+  const [query, setQuery] = useState('');
 
-  }
-  const onChange = (e) => {
+  const searchRef = useRef();
 
-  }
+  const onSubmit = useCallback((e) => {
+    e.preventDefault();
+    onQuery(query);
+  }, [onQuery, query]);
+
+  const onChange = useCallback((e) => {
+    setQuery(e.target.value);
+  }, []);
+
+  const onRemove = useCallback((e) => {
+    setQuery('');
+    searchRef.current.value = '';
+    searchRef.current.focus();
+  }, []);
   return (
     <SearchForm onSubmit={onSubmit}>
-      <input className="form-control" onChange={onChange} />
-      <CloseBt className="fa fa-times-circle" />
+      <input className="form-control" onChange={onChange} ref={searchRef} autoFocus />
+      {query.length ? <CloseBt className="fa fa-times-circle" onClick={onRemove} /> : ''}
     </SearchForm>
   )
 }
 
-export default SearchCp
+export default React.memo(SearchCp);
