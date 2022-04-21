@@ -1,8 +1,16 @@
-import React from 'react'
+import React from 'react';
+import styled, { color } from 'styled';
+
+const Footer = styled.footer`
+  padding: 1em;
+  text-align: center;
+  color: ${color.light};
+  background-color: ${color.dark};
+`
 
 const FooterCp = () => {
   return (
-    <div>FooterCp</div>
+    <Footer>FooterCp</Footer>
   )
 }
 

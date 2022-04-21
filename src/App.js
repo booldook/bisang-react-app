@@ -10,15 +10,15 @@ const Wrapper = styled.div`
   min-height: 100vh;
 `
 const Body = styled(BodyCp)`
-  border: 1px solid red;
   flex-grow: 1;
+  padding: 1em;
 `
 
 const App = () => {
   return (
     <Wrapper>
       <HeaderCp />
-      <Body />
+      <Body className="container"/>
       <FooterCp />
     </Wrapper>
   );

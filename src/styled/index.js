@@ -7,6 +7,11 @@ export * from "@emotion/react";
 export const color = {
   primary: '#234232',
   secondary: '#881122',
+  dark: '#333',
+  darker: '#111',
+  light: '#ccc',
+  lighter: '#efefef',
+  white: '#f8f8f8',
 }
 
 export const size = {

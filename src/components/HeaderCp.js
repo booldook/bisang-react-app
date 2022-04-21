@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled';
+import styled, { color } from 'styled';
 
 import LogoCp from 'components/header/LogoCp';
 import NaviCp from 'components/header/NaviCp';
@@ -7,6 +7,7 @@ import NaviCp from 'components/header/NaviCp';
 const Header = styled.header`
   display: flex;
   align-items: center;
+  background-color: ${color.dark};
 `
 
 
