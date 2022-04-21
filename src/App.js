@@ -1,15 +1,26 @@
-import SearchCp from "./components/SearchCp";
-import SearchStyledCp from "./components/SearchStyledCp";
+import React from 'react';
+import HeaderCp from 'components/HeaderCp';
+import BodyCp from 'components/BodyCp';
+import FooterCp from 'components/FooterCp';
+import styled from 'styled';
 
-import styled, { color, size, css, media, flex } from './style'
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+`
+const Body = styled(BodyCp)`
+  border: 1px solid red;
+  flex-grow: 1;
+`
 
 const App = () => {
   return (
-    <div className="container border">
-      <h1>Hello, React</h1>
-      <SearchCp />
-      <SearchStyledCp />    
-    </div>
+    <Wrapper>
+      <HeaderCp />
+      <Body />
+      <FooterCp />
+    </Wrapper>
   );
 }
 
