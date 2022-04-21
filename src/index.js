@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom/client'; // 17.0.2 react-dom
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/scss/bootstrap.scss';
+import 'assets/scss/_common.scss';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
