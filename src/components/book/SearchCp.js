@@ -13,15 +13,15 @@ const CloseBt = styled.span`
   top: 0.25em;
 `
 
-const SearchCp = ({ getData }) => {
+const SearchCp = ({ changeQuery }) => {
   const [query, setQuery] = useState('');
 
   const searchRef = useRef();
 
   const onSubmit = useCallback((e) => {
     e.preventDefault();
-    getData(query);
-  }, [getData, query]);
+    changeQuery(query);
+  }, [changeQuery, query]);
 
   const onChange = useCallback((e) => {
     setQuery(e.target.value);
@@ -29,10 +29,10 @@ const SearchCp = ({ getData }) => {
 
   const onRemove = useCallback((e) => {
     setQuery('');
-    getData('');
+    changeQuery('');
     searchRef.current.value = '';
     searchRef.current.focus();
-  }, [getData]);
+  }, [changeQuery]);
   return (
     <SearchForm onSubmit={onSubmit}>
       <input className="form-control" onChange={onChange} ref={searchRef} autoFocus />

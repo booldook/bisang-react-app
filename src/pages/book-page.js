@@ -94,9 +94,9 @@ const BookPage = () => {
     }
   }, [isEnd, setQuery, onReset, onFetch]);
 
-  const onChangeInView = useCallback((_inView, entry) => {
+  const onChangeInView = useCallback(async (_inView, entry) => {
     setInView(_inView);
-    if(_inView && !isEnd && query) onFetch(query);
+    if(_inView && !isEnd && query) await onFetch(query);
   }, [onFetch, isEnd, query]);
 
 
