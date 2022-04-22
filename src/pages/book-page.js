@@ -12,6 +12,7 @@ data watch
 import React, { useState, useCallback, useMemo } from 'react';
 import styled, { color } from 'styled';
 import axios from 'axios';
+import { InView } from 'react-intersection-observer';
 
 import TitleCp from 'components/common/TitleCp';
 import SearchCp from 'components/book/SearchCp';
@@ -38,13 +39,11 @@ const BookPage = () => {
 
   const [query, setQuery] = useState('');
   const [isEnd, setIsEnd] = useState(false);
+  const [page, setPage] = useState(0);
+  const [inView, setInView] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
   const [bookList, setBookList] = useState([]);
 
-  /* const getBooks2 = useCallback(() => {
-    console.log(query);
-  }, [query]) */
-  
   const getBookQuery = useMemo(() => {
     return query.length ? '검색어는 ' + query + ' 입니다. ' : '';
   }, [query]);
@@ -53,31 +52,52 @@ const BookPage = () => {
     return totalCount && query ? '검색결과: ' + totalCount + '건' : '';
   }, [totalCount, query]);
 
-  const getData = useCallback(async (query) => {
+  const onFetch = useCallback(async (query) => {
+    // 로딩바 o
+    const url = process.env.REACT_APP_BOOK_URL;
+    const options = {
+      params: { query , size: 50, page: page + 1 },
+      headers: {
+        Authorization: 'KakaoAK ' + process.env.REACT_APP_KAKAO_KEY
+      }
+    }
+    const { data } = await axios.get(url, options);
+    setPage(page + 1);
+    setIsEnd(data.meta.is_end);
+    setTotalCount(data.meta.total_count);
+    setBookList([...bookList, ...data.documents]);
+    // 로딩바 x
+  }, [page, bookList, setPage, setIsEnd, setTotalCount, setBookList]);
+
+  const onReset = useCallback(() => {
+    setQuery('');
+    setPage(0);
+    setIsEnd(false);
+    setInView(true);
+    setTotalCount(0);
+    setBookList([]);
+  }, []);
+
+  const changeQuery = useCallback(async (query) => {
     try {
       setQuery(query);
       // 통신
-      if(query) {
-        const url = process.env.REACT_APP_BOOK_URL;
-        const options = {
-          params: { query },
-          headers: {
-            Authorization: 'KakaoAK ' + process.env.REACT_APP_KAKAO_KEY
-          }
-        }
-        const { data } = await axios.get(url, options);
-        setIsEnd(data.meta.is_end);
-        setTotalCount(data.meta.total_count);
-        setBookList(data.documents);
+      if(query && !isEnd) {
+        await onFetch(query);
       }
       else {
-        setBookList([]);
+        onReset();
       }
     }
     catch(err) {
       console.log(err)
     }
-  }, [])
+  }, [isEnd, setQuery, onReset, onFetch]);
+
+  const onChangeInView = useCallback((_inView, entry) => {
+    setInView(_inView);
+    if(_inView && !isEnd && query) onFetch(query);
+  }, [onFetch, isEnd, query]);
 
 
   return (
@@ -87,10 +107,11 @@ const BookPage = () => {
         <div>{ getBookCount }</div>
       </SearchHead>
       <TitleCp color={color.dark}>도서검색</TitleCp>
-      <SearchCp getData={getData}/>
+      <SearchCp changeQuery={changeQuery}/>
       <BookList>
         { bookList.map((book, i) => <ListCp book={book} key={"book_" + i}/>)}
       </BookList>
+      <InView className="border border-danger p-2" onChange={onChangeInView}/>
     </BookWrap>
   )
 }
