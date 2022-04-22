@@ -13,4 +13,4 @@ const TitleCp = ({ children, color }) => {
   )
 }
 
-export default TitleCp
+export default React.memo(TitleCp);

@@ -15,6 +15,7 @@ import axios from 'axios';
 
 import TitleCp from 'components/common/TitleCp';
 import SearchCp from 'components/book/SearchCp';
+import ListCp from 'components/book/ListCp';
 
 const BookWrap = styled.div`
 
@@ -23,6 +24,14 @@ const BookWrap = styled.div`
 const SearchHead = styled.header`
   display: flex;
   justify-content: space-between;
+`
+
+const BookList = styled.ul`
+  padding: 0;
+  width: 102%;
+  margin: 1em 0 0 -1%;
+  display: flex;
+  flex-wrap: wrap;
 `
 
 const BookPage = () => {
@@ -44,20 +53,26 @@ const BookPage = () => {
     return totalCount && query ? '검색결과: ' + totalCount + '건' : '';
   }, [totalCount, query]);
 
-  const getData = useCallback(async (value) => {
+  const getData = useCallback(async (query) => {
     try {
-      setQuery(value);
+      setQuery(query);
       // 통신
-      const url = 'https://dapi.kakao.com/v3/search/book?query='+value;
-      const options = {
-        headers: {
-          Authorization: 'KakaoAK 1ae5438e757ddd9346ddcffd9b85c1a6'
+      if(query) {
+        const url = process.env.REACT_APP_BOOK_URL;
+        const options = {
+          params: { query },
+          headers: {
+            Authorization: 'KakaoAK ' + process.env.REACT_APP_KAKAO_KEY
+          }
         }
+        const { data } = await axios.get(url, options);
+        setIsEnd(data.meta.is_end);
+        setTotalCount(data.meta.total_count);
+        setBookList(data.documents);
       }
-      const { data } = await axios.get(url, options);
-      setIsEnd(data.meta.is_end);
-      setTotalCount(data.meta.total_count);
-      setBookList(data.documents);
+      else {
+        setBookList([]);
+      }
     }
     catch(err) {
       console.log(err)
@@ -73,8 +88,11 @@ const BookPage = () => {
       </SearchHead>
       <TitleCp color={color.dark}>도서검색</TitleCp>
       <SearchCp getData={getData}/>
+      <BookList>
+        { bookList.map((book, i) => <ListCp book={book} key={"book_" + i}/>)}
+      </BookList>
     </BookWrap>
   )
 }
 
-export default BookPage
+export default React.memo(BookPage);
