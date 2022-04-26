@@ -40,7 +40,6 @@ const BookPage = () => {
   const [query, setQuery] = useState('');
   const [isEnd, setIsEnd] = useState(false);
   const [page, setPage] = useState(0);
-  const [inView, setInView] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
   const [bookList, setBookList] = useState([]);
 
@@ -73,7 +72,6 @@ const BookPage = () => {
     setQuery('');
     setPage(0);
     setIsEnd(false);
-    setInView(true);
     setTotalCount(0);
     setBookList([]);
   }, []);
@@ -94,11 +92,9 @@ const BookPage = () => {
     }
   }, [isEnd, setQuery, onReset, onFetch]);
 
-  const onChangeInView = useCallback(async (_inView, entry) => {
-    setInView(_inView);
-    if(_inView && !isEnd && query) await onFetch(query);
+  const onChangeInView = useCallback(async (inView, entry) => {
+    if(inView && !isEnd && query) await onFetch(query);
   }, [onFetch, isEnd, query]);
-
 
   return (
     <BookWrap>
