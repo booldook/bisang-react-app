@@ -44,7 +44,7 @@ const extraReducers = builder => builder
 })
 .addCase(retrieveBook.fulfilled, (state, action) => {
   state.isLoading = false;
-  state.books = action.payload.books;
+  state.books.push(...action.payload.books);
   state.isEnd = action.payload.isEnd;
   state.totalCount = action.payload.totalCount;
 })

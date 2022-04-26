@@ -9,10 +9,12 @@ data watch
 3. 객체 => useMemo();
 */
 
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import styled, { color } from 'styled';
-import axios from 'axios';
 import { InView } from 'react-intersection-observer';
+import { shallowEqual, useSelector, useDispatch } from 'react-redux';
+
+import { resetBook, retrieveBook } from 'store/slice/book-slice';
 
 import TitleCp from 'components/common/TitleCp';
 import SearchCp from 'components/book/SearchCp';
@@ -36,12 +38,10 @@ const BookList = styled.ul`
 `
 
 const BookPage = () => {
-
-  const [query, setQuery] = useState('');
-  const [isEnd, setIsEnd] = useState(false);
-  const [page, setPage] = useState(0);
-  const [totalCount, setTotalCount] = useState(0);
-  const [bookList, setBookList] = useState([]);
+  const dispatch = useDispatch();
+  const { query, totalCount, isEnd, books } = useSelector(state => state.book, shallowEqual);
+  const [inView, setInView] = useState(true);
+  const [page, setPage] = useState(1);
 
   const getBookQuery = useMemo(() => {
     return query.length ? '검색어는 ' + query + ' 입니다. ' : '';
@@ -51,10 +51,31 @@ const BookPage = () => {
     return totalCount && query ? '검색결과: ' + totalCount + '건' : '';
   }, [totalCount, query]);
 
+  /* useEffect(() => {
+    'componentDidMount 컴포넌트가 시작될때 할일 - 아래 배열이 비었을 때'
+    'componentDidUpdate 컴포넌트의 아래 배열로 주어진 스테이트값이 업데이트 될때 '
+    return () => {'componentWillUnMount 컴포넌트가 삭제될 때'}
+  }, []); */
+
+  useEffect(() => {
+    console.log('마운트');
+    return () => {
+      console.log('언마운트');
+      dispatch(resetBook());
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    if(inView && !isEnd && query) {
+      dispatch(retrieveBook({ query, page: page + 1 }));
+      setPage(page + 1);
+      setInView(false);
+    }
+  }, [query, inView, isEnd, page, dispatch])
 
   const onChangeInView = useCallback(async (inView, entry) => {
-    // if(inView && !isEnd && query) await onFetch(query);
-  }, [isEnd, query]);
+    setInView(inView);
+  }, []);
 
   return (
     <BookWrap>
@@ -65,7 +86,7 @@ const BookPage = () => {
       <TitleCp color={color.dark}>도서검색</TitleCp>
       <SearchCp/>
       <BookList>
-        { bookList.map((book, i) => <ListCp book={book} key={"book_" + i}/>)}
+        { books.map((book, i) => <ListCp book={book} key={"book_" + i}/>)}
       </BookList>
       <InView className="border border-danger p-2" onChange={onChangeInView}/>
     </BookWrap>
