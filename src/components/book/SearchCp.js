@@ -19,19 +19,17 @@ const CloseBt = styled.span`
 const SearchCp = () => {
   const dispatch = useDispatch();
   const query = useSelector(state => state.book.query)
-  // const [query, setQuery] = useState('');
 
   const searchRef = useRef();
 
   const onSubmit = useCallback((e) => {
     e.preventDefault();
-    dispatch(retrieveBook({ query: searchRef.current.value }));
-    dispatch(setQuery(searchRef.current.value));
+    const query = searchRef.current.value;
+    dispatch(resetBook());
+    dispatch(retrieveBook({ query }));
+    dispatch(setQuery(query));
   }, [dispatch]);
 
-  const onChange = useCallback((e) => {
-    
-  }, []);
 
   const onRemove = useCallback((e) => {
     dispatch(resetBook());
@@ -40,7 +38,7 @@ const SearchCp = () => {
   }, [dispatch]);
   return (
     <SearchForm onSubmit={onSubmit}>
-      <input className="form-control" onChange={onChange} ref={searchRef} autoFocus />
+      <input className="form-control" ref={searchRef} autoFocus />
       {query.length ? <CloseBt className="fa fa-times-circle" onClick={onRemove} /> : ''}
     </SearchForm>
   )

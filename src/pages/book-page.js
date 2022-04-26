@@ -13,6 +13,7 @@ import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import styled, { color } from 'styled';
 import { InView } from 'react-intersection-observer';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
+import currency from 'currency.js';
 
 import { resetBook, retrieveBook } from 'store/slice/book-slice';
 
@@ -48,7 +49,7 @@ const BookPage = () => {
   }, [query]);
   
   const getBookCount = useMemo(() => {
-    return totalCount && query ? '검색결과: ' + totalCount + '건' : '';
+    return totalCount && query ? '검색결과: ' + currency(totalCount, {symbol: '', precision: 0}).format() + '건' : '';
   }, [totalCount, query]);
 
   /* useEffect(() => {
