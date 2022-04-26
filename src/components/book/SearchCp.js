@@ -1,5 +1,8 @@
 import React, { useState, useRef, useCallback, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled, { color } from 'styled';
+
+import { resetBook, setQuery, retrieveBook } from 'store/slice/book-slice';
 
 const SearchForm = styled.form`
   position: relative;
@@ -13,26 +16,24 @@ const CloseBt = styled.span`
   top: 0.25em;
 `
 
-const SearchCp = ({ changeQuery }) => {
+const SearchCp = () => {
+  const dispatch = useDispatch();
   const [query, setQuery] = useState('');
 
   const searchRef = useRef();
 
   const onSubmit = useCallback((e) => {
     e.preventDefault();
-    changeQuery(query);
-  }, [changeQuery, query]);
+    dispatch(retrieveBook({ query: searchRef.current.value, page: 1 }));
+  }, [dispatch]);
 
   const onChange = useCallback((e) => {
-    setQuery(e.target.value);
+    
   }, []);
 
   const onRemove = useCallback((e) => {
-    setQuery('');
-    changeQuery('');
-    searchRef.current.value = '';
-    searchRef.current.focus();
-  }, [changeQuery]);
+
+  }, []);
   return (
     <SearchForm onSubmit={onSubmit}>
       <input className="form-control" onChange={onChange} ref={searchRef} autoFocus />

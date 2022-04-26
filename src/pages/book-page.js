@@ -51,50 +51,10 @@ const BookPage = () => {
     return totalCount && query ? '검색결과: ' + totalCount + '건' : '';
   }, [totalCount, query]);
 
-  const onFetch = useCallback(async (query) => {
-    // 로딩바 o
-    const url = process.env.REACT_APP_BOOK_URL;
-    const options = {
-      params: { query , size: 50, page: page + 1 },
-      headers: {
-        Authorization: 'KakaoAK ' + process.env.REACT_APP_KAKAO_KEY
-      }
-    }
-    const { data } = await axios.get(url, options);
-    setPage(page + 1);
-    setIsEnd(data.meta.is_end);
-    setTotalCount(data.meta.total_count);
-    setBookList([...bookList, ...data.documents]);
-    // 로딩바 x
-  }, [page, bookList, setPage, setIsEnd, setTotalCount, setBookList]);
-
-  const onReset = useCallback(() => {
-    setQuery('');
-    setPage(0);
-    setIsEnd(false);
-    setTotalCount(0);
-    setBookList([]);
-  }, []);
-
-  const changeQuery = useCallback(async (query) => {
-    try {
-      setQuery(query);
-      // 통신
-      if(query && !isEnd) {
-        await onFetch(query);
-      }
-      else {
-        onReset();
-      }
-    }
-    catch(err) {
-      console.log(err)
-    }
-  }, [isEnd, setQuery, onReset, onFetch]);
 
   const onChangeInView = useCallback(async (inView, entry) => {
-    if(inView && !isEnd && query) await onFetch(query);
-  }, [onFetch, isEnd, query]);
+    // if(inView && !isEnd && query) await onFetch(query);
+  }, [isEnd, query]);
 
   return (
     <BookWrap>
@@ -103,7 +63,7 @@ const BookPage = () => {
         <div>{ getBookCount }</div>
       </SearchHead>
       <TitleCp color={color.dark}>도서검색</TitleCp>
-      <SearchCp changeQuery={changeQuery}/>
+      <SearchCp/>
       <BookList>
         { bookList.map((book, i) => <ListCp book={book} key={"book_" + i}/>)}
       </BookList>
