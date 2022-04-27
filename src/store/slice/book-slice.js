@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, createSelector } from "@reduxjs/toolkit";
-import { retrieveBookApi } from "store/api/book-api";
+import axios from "axios";
 
 /* initial */
 const name = 'book';
@@ -14,10 +14,23 @@ const initialState = {
 }
 
 /* async action */
-export const retrieveBook = createAsyncThunk(`${name}/retrieveBook`, async (data, thunkApi) => {
+export const retrieveBook = createAsyncThunk(`${name}/retrieveBook`, async ({ query, size = 30, page = 1 }, thunkApi) => {
   try {
-    const { data: { documents, meta } } = await retrieveBookApi(data);
-    return { books: documents, isEnd: meta.is_end, totalCount: meta.total_count };
+    const url = process.env.REACT_APP_BOOK_URL;
+    const options = {
+      params: { query , size, page },
+      headers: {
+        Authorization: 'KakaoAK ' + process.env.REACT_APP_KAKAO_KEY
+      }
+    }
+    const { data: { documents, meta } } = await axios.get(url, options);
+
+    return new Promise((resolve, reject) => {
+      setInterval(() => {
+        resolve({ books: documents, isEnd: meta.is_end, totalCount: meta.total_count })
+      }, 2000);
+    })
+    // return { books: documents, isEnd: meta.is_end, totalCount: meta.total_count };
   }
   catch(err) {
     return thunkApi.rejectWithValue(err.response.data);

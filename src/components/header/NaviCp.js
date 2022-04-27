@@ -15,7 +15,7 @@ const NaviCp = () => {
     <NavWrap>
       <NavLink to="/">HOME</NavLink>
       <NavLink to="/book">BOOK</NavLink>
-      <NavLink to="/board">BOARD</NavLink>
+      <NavLink to="/post">POST</NavLink>
     </NavWrap>
   )
 }

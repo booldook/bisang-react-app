@@ -20,6 +20,8 @@ import { resetBook, retrieveBook } from 'store/slice/book-slice';
 import TitleCp from 'components/common/TitleCp';
 import SearchCp from 'components/book/SearchCp';
 import ListCp from 'components/book/ListCp';
+import LoadingCp from 'components/common/LoadingCp';
+import LoadingListCp from 'components/common/LoadingListCp';
 
 const BookWrap = styled.div`
 
@@ -41,6 +43,7 @@ const BookList = styled.ul`
 const BookPage = () => {
   const dispatch = useDispatch();
   const { query, totalCount, isEnd, books } = useSelector(state => state.book, shallowEqual);
+  const isLoading = useSelector(state => state.book.isLoading);
   const [inView, setInView] = useState(true);
   const [page, setPage] = useState(1);
 
@@ -89,7 +92,9 @@ const BookPage = () => {
       <BookList>
         { books.map((book, i) => <ListCp book={book} key={"book_" + i}/>)}
       </BookList>
-      <InView className="border border-danger p-2" onChange={onChangeInView}/>
+      {/* {isLoading ? <LoadingCpList /> : ''} */}
+      {isLoading ? <LoadingListCp /> : ''}
+      <InView onChange={onChangeInView}/>
     </BookWrap>
   )
 }
