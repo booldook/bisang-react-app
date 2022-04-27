@@ -6,6 +6,7 @@ import store from 'store'
 import reportWebVitals from './reportWebVitals';
 // import axios from 'axios';
 
+import 'antd/dist/antd.css';
 import 'font-awesome/css/font-awesome.min.css';
 import 'bootstrap/scss/bootstrap.scss';
 import 'assets/scss/_common.scss';

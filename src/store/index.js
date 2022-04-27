@@ -10,7 +10,7 @@ export default configureStore({
   },
   middleware: getDefaultMiddleware => {
    return getDefaultMiddleware()
-            .concat(process.env.NODE_ENV !== 'production' ? logger : [])
+            .concat(logger)
   },
   devTools: process.env.NODE_ENV !== 'production'
 })

@@ -9,6 +9,7 @@ import styled from 'styled';
 import HomePage from 'pages/home-page';
 import BookPage from 'pages/book-page';
 import PostPage from 'pages/post-page';
+import LoginPage from 'pages/login-page';
 
 const Wrapper = styled.div`
   display: flex;
@@ -30,6 +31,7 @@ const App = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/book" element={<BookPage />} />
             <Route path="/post" element={<PostPage />} />
+            <Route path="/login" element={<LoginPage />} />
           </Routes>
         </Body>
         <FooterCp />

@@ -38,6 +38,9 @@ const reducers = {
   setPage(state, action) {
     state.page = action.payload;
   },
+  resetPost(state, action) {
+    Object.assign(state, initialState);
+  }
 }
 
 
@@ -48,7 +51,7 @@ const extraReducers = builder => builder
 })
 .addCase(retrievePost.fulfilled, (state, action) => {
   state.isLoading = false;
-  state.posts.push(...action.payload.posts);
+  state.posts = action.payload.posts;
   state.pager = action.payload.pager;
 })
 .addCase(retrievePost.rejected, (state, action) => {
@@ -66,7 +69,7 @@ const postSlice = createSlice({ name, initialState, reducers, extraReducers });
 
 
 /* export */
-export const { setPage } = postSlice.actions
+export const { setPage, resetPost } = postSlice.actions
 export default postSlice;
 
 
