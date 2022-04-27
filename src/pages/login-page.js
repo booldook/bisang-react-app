@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
 import styled, { color } from 'styled';
 import TitleCp from 'components/common/TitleCp';
+import axios from 'axios';
 
 const Wrapper = styled.div`
 
@@ -12,9 +13,19 @@ const StyledForm = styled(Form)`
 `
 
 const LoginPage = () => {
-  const onFinish = (values) => {
-    console.log('Success:', values);
+  const onFinish = async ({ userid, userpw }) => {
     // redux --> cookie(session) / token / localStorage
+    // await axios.get(url, options)
+    try {
+      const url = process.env.REACT_APP_SERVER_URL + '/api/auth';
+      const data = { userid, userpw }
+      const options = { withCredentials: true }
+      const result = await axios.post(url, data, options);
+      console.log(userid, userpw, result);
+    }
+    catch(err) {
+      console.log(err)
+    } 
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -36,7 +47,7 @@ const LoginPage = () => {
           <Input />
         </Form.Item>
 
-        <Form.Item label="패스워드" name="password"
+        <Form.Item label="패스워드" name="userpw"
           rules={[{ required: true, message: '패스워드를 입력하세요' }]}>
           <Input.Password />
         </Form.Item>
