@@ -5,12 +5,10 @@ import axios from "axios";
 const name = 'book';
 
 const initialState = {
-  isLoading: false,
   query: '',
   isEnd: false,
   totalCount: 0,
   books: [],
-  err: null
 }
 
 /* async action */
@@ -53,17 +51,15 @@ const reducers = {
 /* extraReducer */
 const extraReducers = builder => builder
 .addCase(retrieveBook.pending, (state, action) => {
-  state.isLoading = true;
+  
 })
 .addCase(retrieveBook.fulfilled, (state, action) => {
-  state.isLoading = false;
   state.books.push(...action.payload.books);
   state.isEnd = action.payload.isEnd;
   state.totalCount = action.payload.totalCount;
 })
 .addCase(retrieveBook.rejected, (state, action) => {
-  state.isLoading = false;
-  state.err = action.payload;
+  
 })
 
 

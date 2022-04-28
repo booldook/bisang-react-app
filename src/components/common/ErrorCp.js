@@ -1,8 +1,11 @@
 import React from 'react'
 
-const ErrorCp = () => {
+const ErrorCp = ({ code }) => {
   return (
-    <div>ErrorCp</div>
+    <div>
+      <h1>Err. { code }</h1>
+      <h2>아이쿠 에러입니다.</h2>
+    </div>
   )
 }
 
