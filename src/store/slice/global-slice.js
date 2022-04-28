@@ -6,6 +6,7 @@ const name = 'global';
 const initialState = {
   isLoading: false,
   error: null,
+  isShow: false,
 }
 
 /* sync reducer */
@@ -18,6 +19,9 @@ const reducers = {
   },
   setGlobalError(state, action) {
     state.error = action.payload;
+  },
+  setGlobalIsShow(state, action) {
+    state.isShow = action.payload;
   }
 }
 
@@ -25,7 +29,7 @@ const reducers = {
 const globalSlice = createSlice({ name, initialState, reducers });
 
 /* export */
-export const { setGlobalReset, setGlobalIsLoading, setGlobalError } = globalSlice.actions
+export const { setGlobalReset, setGlobalIsLoading, setGlobalError, setGlobalIsShow } = globalSlice.actions
 export default globalSlice;
 
 

@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
 import styled, { color } from 'styled';
+import { useDispatch, useSelector } from 'react-redux';
+
 import TitleCp from 'components/common/TitleCp';
-import axios from 'axios';
+
+import { logIn, logOut, resetAuth } from 'store/slice/auth-slice';
+import { setGlobalIsShow } from 'store/slice/global-slice';
+import ModalCp from 'components/common/ModalCp';
+
 
 const Wrapper = styled.div`
 
@@ -13,27 +19,34 @@ const StyledForm = styled(Form)`
 `
 
 const LoginPage = () => {
-  const onFinish = async ({ userid, userpw }) => {
-    // redux --> cookie(session) / token / localStorage
-    // await axios.get(url, options)
-    try {
-      const url = process.env.REACT_APP_SERVER_URL + '/api/auth';
-      const data = { userid, userpw }
-      const options = { withCredentials: true }
-      const result = await axios.post(url, data, options);
-      console.log(userid, userpw, result);
-    }
-    catch(err) {
-      console.log(err)
-    } 
-  };
+  const dispatch = useDispatch();
+  const isLogging = useSelector(state => state.auth.isLogging);
+  const user = useSelector(state => state.auth.user);
+  const message = useSelector(state => state.auth.message);
+
+  const onFinish = useCallback(({ userid, userpw }) => {
+    dispatch(logIn({ userid, userpw }));
+  }, [dispatch]);
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
+
+  useEffect(() => {
+    console.log(isLogging, user, message);
+    if(!isLogging && user === null && message.length) {
+      console.log("여기")
+      dispatch(setGlobalIsShow(true));
+    }
+  }, [isLogging, user, message, dispatch]);
+
+
   return (
     <Wrapper>
       <TitleCp color={color.dark}>로그인</TitleCp>
+      {isLogging && <div>
+          <div>로그인</div>
+      </div>}
       <StyledForm name="loginForm"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 8 }}
@@ -60,6 +73,7 @@ const LoginPage = () => {
           <Button type="primary" htmlType="submit">로그인</Button>
         </Form.Item>
       </StyledForm>
+      <ModalCp title={message} />
     </Wrapper>
   )
 }
