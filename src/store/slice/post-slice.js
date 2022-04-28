@@ -18,9 +18,7 @@ export const retrievePost = createAsyncThunk(`${name}/retrievePost`, async ({ pa
   try {
     const url = process.env.REACT_APP_SERVER_URL + '/api/posts/' + page;
     const options = {
-      headers: {
-        
-      }
+      withCredentials: true,
     }
     const { data: { posts, pager } } = await axios.get(url, options);
 

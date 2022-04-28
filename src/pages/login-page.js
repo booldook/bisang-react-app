@@ -35,7 +35,6 @@ const LoginPage = () => {
   useEffect(() => {
     console.log(isLogging, user, message);
     if(!isLogging && user === null && message.length) {
-      console.log("여기")
       dispatch(setGlobalIsShow(true));
     }
   }, [isLogging, user, message, dispatch]);

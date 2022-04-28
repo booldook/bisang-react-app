@@ -15,6 +15,7 @@ const globalMiddleware = (store) => (next) => (action) => {
     store.dispatch(setGlobalIsLoading(false));
     store.dispatch(setGlobalError(action.payload));
   }
+  localStorage.setItem('root', JSON.stringify(store.getState()));
 }
 
 const middleware = [globalMiddleware];
