@@ -18,10 +18,12 @@ export const retrievePost = createAsyncThunk(`${name}/retrievePost`, async ({ pa
   try {
     const url = process.env.REACT_APP_SERVER_URL + '/api/posts/' + page;
     console.log(thunkApi.getState().auth.token);
-    const headers = {
-        Authorization: `Bearer ${thunkApi.getState().auth.token}`
+    const options = {
+      headers: {
+        Authorization: thunkApi.getState().auth.token
+      }
     }
-    const { data: { posts, pager } } = await axios.get(url, headers);
+    const { data: { posts, pager } } = await axios.get(url, options);
 
     // return new Promise((resolve, reject) => setInterval(() => resolve({ posts, pager }), 1000));
     return { posts, pager };
