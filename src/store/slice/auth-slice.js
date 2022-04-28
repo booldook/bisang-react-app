@@ -21,11 +21,11 @@ const initialState = {
 /* async action */
 export const logIn = createAsyncThunk(`${name}/logIn`, async ({ userid, userpw }, thunkApi) => {
   try {
-    const url = process.env.REACT_APP_SERVER_URL + '/api/auth';
+    const url = process.env.REACT_APP_SERVER_URL + '/api/token';
     const params = { userid, userpw }
-    const options = { withCredentials: true }
+    const options = {  }
     const { data } = await axios.post(url, params, options);
-    return data.success ? { isLogging: true, user: data.user }
+    return data.success ? { isLogging: true, user: data.user, token: data.token }
                         : { isLogging: false, user: null, message: data.message }
   }
   catch(err) {
@@ -53,6 +53,7 @@ const extraReducers = builder => builder
 .addCase(logIn.fulfilled, (state, action) => {
   state.isLogging = action.payload.isLogging;
   state.user = action.payload.user;
+  state.token = action.payload.token;
   state.message = action.payload.message;
 })
 .addCase(logIn.rejected, (state, action) => {
