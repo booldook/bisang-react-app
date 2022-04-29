@@ -62,9 +62,10 @@ const BookPage = () => {
 
   useEffect(() => {
     console.log('마운트');
+    // dispatch(resetBook());
     return () => {
       console.log('언마운트');
-      dispatch(resetBook());
+      // dispatch(resetBook());
     }
   }, [dispatch]);
 

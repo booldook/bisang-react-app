@@ -1,6 +1,11 @@
 import React, { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import styled, { color } from 'styled';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { useNavigate } from 'react-router-dom';
+
+import { logOut } from 'store/slice/auth-slice';
 
 const NavWrap = styled.nav`
   display: flex;
@@ -17,16 +22,26 @@ const NavButton = styled.div`
 `
 
 const NaviCp = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isLogging = useSelector(state => state.auth.isLogging)
   const onLogOut = useCallback(e => {
-    window.alert('로그아웃');
-  }, [])
+    dispatch(logOut());
+  }, [dispatch])
+
+  const onNavigate = useCallback((e) => {
+    // dispatch()
+    const path = e.target.dataset['path'];
+    navigate(path);
+  }, [navigate])
+
   return (
     <NavWrap>
       <NavLink to="/">HOME</NavLink>
-      <NavLink to="/book">BOOK</NavLink>
-      <NavLink to="/post">POST</NavLink>
-      <NavLink to="/login">LOGIN</NavLink>
-      <NavButton onClick={onLogOut}>LOGOUT</NavButton>
+      <NavButton onClick={onNavigate} data-path="/book">BOOK</NavButton>
+      { isLogging && <NavLink to="/post">POST</NavLink> }
+      { !isLogging && <NavLink to="/login">LOGIN</NavLink> }
+      { isLogging && <NavButton onClick={onLogOut}>LOGOUT</NavButton> }
     </NavWrap>
   )
 }

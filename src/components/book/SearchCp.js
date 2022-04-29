@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useRef, useCallback, useMemo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { color } from 'styled';
 
@@ -36,6 +36,11 @@ const SearchCp = () => {
     searchRef.current.value = '';
     searchRef.current.focus();
   }, [dispatch]);
+
+  useEffect(() => {
+    searchRef.current.value = query;
+  }, [query])
+
   return (
     <SearchForm onSubmit={onSubmit}>
       <input className="form-control" ref={searchRef} autoFocus />

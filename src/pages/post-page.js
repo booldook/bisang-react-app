@@ -6,6 +6,7 @@ import styled, { color } from 'styled';
 import TitleCp from 'components/common/TitleCp';
 import TrCp from 'components/post/TrCp';
 import withError from 'hoc/withError';
+import { useNavigate } from 'react-router-dom';
 
 const PostWrap = styled.div`
 
@@ -19,13 +20,19 @@ const Table = styled.table`
 `
 
 const PostPage = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isLogging = useSelector(state => state.auth.isLogging);
   const { posts } = useSelector(state => state.post, shallowEqual)
 
   useEffect(() => {
     dispatch(resetPost());
     dispatch(retrievePost({ page: 1 }))
   }, [dispatch])
+
+  useEffect(() => {
+    if(!isLogging) navigate('/');    
+  }, [isLogging, navigate]);
 
   return (
     <PostWrap>

@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
 import styled, { color } from 'styled';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import TitleCp from 'components/common/TitleCp';
 
@@ -20,6 +21,7 @@ const StyledForm = styled(Form)`
 
 const LoginPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isLogging = useSelector(state => state.auth.isLogging);
   const user = useSelector(state => state.auth.user);
   const message = useSelector(state => state.auth.message);
@@ -32,20 +34,21 @@ const LoginPage = () => {
     console.log('Failed:', errorInfo);
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     console.log(isLogging, user, message);
     if(!isLogging && user === null && message.length) {
-      dispatch(setGlobalIsShow(true));
+      // dispatch(setGlobalIsShow(true));
     }
-  }, [isLogging, user, message, dispatch]);
+  }, [isLogging, user, message, dispatch]); */
+
+  useEffect(() => {
+    if(isLogging) navigate('/');
+  }, [navigate, isLogging])
 
 
   return (
     <Wrapper>
       <TitleCp color={color.dark}>로그인</TitleCp>
-      {isLogging && <div>
-          <div>로그인</div>
-      </div>}
       <StyledForm name="loginForm"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 8 }}
