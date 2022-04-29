@@ -47,5 +47,6 @@ const PostPage = () => {
   )
 }
 
-const PostHocPage =  withError(React.memo(PostPage));
+// const PostHocPage =  withError(React.memo(PostPage));
+const PostHocPage =  React.memo(PostPage);
 export default PostHocPage;
