@@ -7,6 +7,9 @@ import { useNavigate } from 'react-router-dom';
 
 import { logOut } from 'store/slice/auth-slice';
 
+import { resetBook } from 'store/slice/book-slice';
+import { resetPost } from 'store/slice/post-slice';
+
 const NavWrap = styled.nav`
   display: flex;
   margin-left: auto;
@@ -30,17 +33,18 @@ const NaviCp = () => {
   }, [dispatch])
 
   const onNavigate = useCallback((e) => {
-    // dispatch()
     const path = e.target.dataset['path'];
+    if(path === '/book') dispatch(resetBook());
+    if(path === '/post') dispatch(resetPost());
     navigate(path);
-  }, [navigate])
+  }, [navigate, dispatch])
 
   return (
     <NavWrap>
       <NavLink to="/">HOME</NavLink>
       <NavButton onClick={onNavigate} data-path="/book">BOOK</NavButton>
-      { isLogging && <NavLink to="/post">POST</NavLink> }
-      { !isLogging && <NavLink to="/login">LOGIN</NavLink> }
+      { isLogging && <NavButton onClick={onNavigate} data-path="/post">POST</NavButton> }
+      { !isLogging && <NavButton onClick={onNavigate} data-path="/login">LOGIN</NavButton> }
       { isLogging && <NavButton onClick={onLogOut}>LOGOUT</NavButton> }
     </NavWrap>
   )
